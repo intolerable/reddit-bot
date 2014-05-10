@@ -12,7 +12,7 @@ import qualified Data.Text as Text
 type WordList = Map [Text] Integer
 
 wordList :: Parser WordList
-wordList = Map.fromList <$> line `sepBy` ((return <$> char '\n') <|> string ", ")
+wordList = Map.fromList <$> (line `sepEndBy` ((return <$> char '\n') <|> string ", "))
 
 line :: Parser ([Text], Integer)
 line = (,) <$> word `sepEndBy1` spaces <*> integer
