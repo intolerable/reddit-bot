@@ -5,11 +5,12 @@ module Main
 import Examples as Export
 import Parser as Export
 
-import Control.Monad (unless, when, void)
+import Control.Monad (unless, when,)
 import Control.Monad.IO.Class
 import Control.Monad.Trans.Either
+import Control.Monad.Trans.Reader
 import Data.Char (isAlpha, toLower)
-import Data.List (genericLength)
+import Data.List (genericLength, isPrefixOf)
 import Data.Maybe
 import Data.Monoid
 import Data.Text (Text)
@@ -29,6 +30,8 @@ import qualified Reddit.API as Reddit
 import qualified Reddit.API.Types.Post as Post
 import qualified Reddit.API.Types.Comment as Comment
 
+type WordListM = ReaderT Text Reddit
+
 main :: IO ()
 main = do
   args <- getArgs
@@ -47,13 +50,12 @@ noobBot = Bot $ every 600 $ rateLimit $ do
   Listing posts <- Reddit.getNewSubredditPosts (R "DotA2")
   mapM_ dealWith posts
 
-
 readWordList :: Reddit WordList
 readWordList = do
   f <- liftIO $ readFile "words.list"
   case parse wordList "words.list" (T.pack f) of
-    Left _ -> EitherT . return $ Left $ ParseError "err"
-    Right x -> EitherT . return $ Right x
+    Left _ -> Reddit . EitherT . return $ Left $ ParseError "err"
+    Right x -> Reddit . EitherT . return $ Right x
 
 dealWith :: Post -> Reddit ()
 dealWith p = do
@@ -64,27 +66,25 @@ shouldBotRespond :: WordList -> Post -> Bool
 shouldBotRespond w post = score w post > 1.25 && hasEnoughWords post
 
 hasEnoughWords :: Post -> Bool
-hasEnoughWords p = length wc > 15
-  where
-    wc = case Post.content p of
-      SelfPost s _ -> keywords (Post.title p) s
-      Link _ -> []
-      TitleOnly -> []
+hasEnoughWords p = length (keywords $ postTextTitle p)> 15
 
 score :: WordList -> Post -> Double
-score w post =
-  case Post.content post of
-    SelfPost s _ -> helper (Post.title post) s
-    Link _ -> 0
-    TitleOnly -> 0
-  where helper t s = (total w (keywords t s)) / genericLength (keywords t s)
+score w post = helper $ postTextTitle post
+  where helper t = (total w (keywords t)) / genericLength (keywords t)
 
-keywords :: Text -> Text -> [Text]
-keywords t b = filter (not . T.null) . T.split (not . isAlpha) . T.map toLower $ combined 
-  where combined = mconcat [t, " ", b]
+postTextTitle :: Post -> Text
+postTextTitle p =
+  Post.title p <> " " <> case Post.content p of
+    SelfPost s _ -> s
+    Link _ -> ""
+    TitleOnly -> ""
+
+keywords :: Text -> [Text]
+keywords t = filter (not . T.null) . T.split (not . isAlpha) . T.map toLower $ t 
 
 total :: WordList -> [Text] -> Double
-total w = sum . map (keywordLookup w)
+total w ts = fromIntegral . sum $ map (\(ws, value) -> (ws `countInstancesIn` ts) * value) (M.toList w)  
+
 
 keywordLookup :: WordList -> Text -> Double
 keywordLookup w k = fromIntegral $ fromMaybe 1 $ M.lookup [k] w
@@ -94,5 +94,14 @@ replyWithHelp post = do
   cs <- getComments $ Post.postID post
   unless (any ((Username "intolerable-bot" ==) . Comment.author) cs) $  do
     liftIO $ putStrLn $ mconcat ["Replying to ", show $ Post.postID post]
-    bodyFile <- liftIO $ readFile "reply.md"
-    void $ rateLimit $ reply post $ T.pack bodyFile
+    --bodyFile <- liftIO $ readFile "reply.md"
+    --void $ rateLimit $ reply post $ T.pack bodyFile
+
+countInstancesIn :: Eq a => [a] -> [a] -> Integer
+countInstancesIn [] _ = 0
+countInstancesIn _ [] = 0
+countInstancesIn x y = (f $ x `isPrefixOf` y) + countInstancesIn x (tail y)
+  where f False = 0
+        f True = 1
+
+--score' :: Text -> 
