@@ -5,6 +5,7 @@ module Main
 import Classifier as Export
 import Examples as Export
 import Parser as Export
+import qualified Markdown as Md
 
 import Control.Monad (unless, when, void)
 import Control.Monad.IO.Class
