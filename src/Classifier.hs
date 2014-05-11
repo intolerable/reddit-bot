@@ -4,6 +4,7 @@ import Parser
 
 import Data.Char (isAlpha, toLower)
 import Data.List (genericLength, isPrefixOf)
+import Data.Map (Map)
 import Data.Monoid
 import Data.Text (Text)
 import Reddit.API.Types.Post (Post, PostContent(..))
@@ -17,19 +18,19 @@ data PostClassification = Unrelated
                         | LoLSwitch
   deriving (Show, Read, Eq)
 
-getWordList :: IO (Maybe WordList)
+getWordList :: IO WordList
 getWordList = do
   let filename = "words.list"
   f <- readFile filename
   case parse wordList filename $ Text.pack f of 
-    Left _ -> return $ Nothing
-    Right x -> return $ Just x
+    Left _ -> error "Invalid format for words.list"
+    Right x -> return $ x
 
 keywords :: Text -> [Text]
 keywords t = filter (not . Text.null) . Text.split (not . isAlpha) . Text.map toLower $ t 
 
 shouldBotRespond :: WordList -> Post -> Bool
-shouldBotRespond w post = score w post > 0.25 && hasEnoughWords post
+shouldBotRespond w post = score w post > 0.3 && hasEnoughWords post
 
 hasEnoughWords :: Post -> Bool
 hasEnoughWords p = length (keywords $ postTextTitle p) > 15
@@ -54,3 +55,6 @@ countInstancesIn _ [] = 0
 countInstancesIn x y = (f $ x `isPrefixOf` y) + countInstancesIn x (tail y)
   where f False = 0
         f True = 1
+
+analyze :: [Text] -> Map Text Integer
+analyze = foldl (\m w -> Map.insertWith (\_ a -> a + 1) w 1 m) Map.empty
