@@ -6,7 +6,7 @@ import Classifier as Export
 import Examples as Export
 import Parser as Export
 
-import Control.Monad (unless, when,)
+import Control.Monad (unless, when, void)
 import Control.Monad.IO.Class
 import Control.Monad.Trans.Reader
 import Data.Monoid
@@ -46,7 +46,7 @@ noobBot = Bot $ every 600 $ rateLimit $ do
 
 dealWith :: Post -> Reddit ()
 dealWith p = do
-  Just wl <- liftIO $ getWordList
+  wl <- liftIO $ getWordList
   when (shouldBotRespond wl p) $ replyWithHelp p
 
 replyWithHelp :: Post -> Reddit ()
@@ -54,5 +54,5 @@ replyWithHelp post = do
   cs <- getComments $ Post.postID post
   unless (any ((Username "intolerable-bot" ==) . Comment.author) cs) $  do
     liftIO $ putStrLn $ mconcat ["Replying to ", show $ Post.postID post]
-    --bodyFile <- liftIO $ readFile "reply.md"
-    --void $ rateLimit $ reply post $ T.pack bodyFile
+    bodyFile <- liftIO $ readFile "reply.md"
+    void $ rateLimit $ reply post $ T.pack bodyFile
