@@ -33,7 +33,7 @@ shouldBotRespond :: WordList -> Post -> Bool
 shouldBotRespond w post = score w post > 0.3 && hasEnoughWords post
 
 hasEnoughWords :: Post -> Bool
-hasEnoughWords p = length (keywords $ postTextTitle p) > 15
+hasEnoughWords p = length (keywords $ postTextTitle p) > 20
 
 score :: WordList -> Post -> Double
 score w post = helper $ postTextTitle post
