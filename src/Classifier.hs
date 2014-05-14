@@ -30,7 +30,7 @@ keywords :: Text -> [Text]
 keywords t = filter (not . Text.null) . Text.split (not . isAlpha) . Text.map toLower $ t 
 
 shouldBotRespond :: WordList -> Post -> Bool
-shouldBotRespond w post = score w post > 0.3 && hasEnoughWords post
+shouldBotRespond w post = score w post > 0.3 && hasEnoughWords post && isSelfPost post
 
 hasEnoughWords :: Post -> Bool
 hasEnoughWords p = length (keywords $ postTextTitle p) > 20
@@ -45,6 +45,13 @@ postTextTitle p =
     SelfPost s _ -> s
     Link _ -> ""
     TitleOnly -> ""
+
+isSelfPost :: Post -> Bool
+isSelfPost post = 
+  case Post.content post of 
+    SelfPost _ _ -> True
+    Link _ -> False
+    TitleOnly -> False
 
 total :: WordList -> [Text] -> Double
 total w ts = fromIntegral . sum $ map (\(ws, value) -> (ws `countInstancesIn` ts) * value) (Map.toList w)  
