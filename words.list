@@ -4,7 +4,9 @@ legends 8, lol 4
 league of legends 4
 bronze 4, silver 4, gold 4, platinum 4, diamond 4
 again -2
-bad 4
+bad -2
+dotabuff -4
+meta -2
 basics 6
 beginner 10, beginning 8
 better 4
@@ -17,6 +19,9 @@ compendium -4
 competitive -2
 draft -4, drafts -4
 earn -2, earning -2, esports -2
+qualifiers -4
+deathmatch -4, death match -4
+when -1
 elo 6
 fantasy -2
 guides 4
@@ -44,5 +49,11 @@ improve -2
 try 6
 unable -2
 videos 2
-volvo -4
+volvo -4, valve -2
+please valve -4, volvo pls -4
 e sports -4
+youtube -2
+na vi -4
+dendi -4
+interview -4
+movie -4
