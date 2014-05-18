@@ -53,7 +53,7 @@ dealWith p = do
 replyWithHelp :: Post -> Reddit ()
 replyWithHelp post = do
   cs <- getComments $ Post.postID post
-  unless (any ((Username "intolerable-bot" ==) . Comment.author) cs) $  do
+  unless (any ((Username "intolerable-bot" ==) . Comment.author) cs) $ do
     liftIO $ putStrLn $ mconcat ["Replying to ", show $ Post.postID post]
     bodyFile <- liftIO $ readFile "reply.md"
     void $ rateLimit $ reply post $ T.pack bodyFile
