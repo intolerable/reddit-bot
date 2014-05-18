@@ -1,37 +1,66 @@
 adc 4, apc 4, bruiser 4, top 2, marksmen 6
-champion 6, minions 6
+champion 8, champions 8, champ 8, champs 8, minion 8, minions 8
+tower 4, towers 4, turrets 4
+knowledge 4, comprehensive 4
+answers 4
+server -4
+necro minions -4
+popular -2
+riot 8
+switch 6, switching 8
 legends 8, lol 4
 league of legends 4
 bronze 4, silver 4, gold 4, platinum 4, diamond 4
 again -2
 bad -2
+meta 4
+bug -4
 dotabuff -4
-meta -2
 basics 6
+how 2
+mods -4
+middle -2
+sticky -2
+check out -4
 beginner 10, beginning 8
+hud -6, huds -6
+should -2
+don t like -2, hate -2
 better 4
 build 4, builds 4
 calibration -4
 chen -4, enchantress -4, io -4, invoker -4
 coaches -2, coach -2
+advanced -4, micro -4
+strongest heroes -6, best heroes -6, op heroes -6, overpowered heroes -6
 combo -2
-compendium -4
+compendium -8
 competitive -2
 draft -4, drafts -4
 earn -2, earning -2, esports -2
+error -10
 qualifiers -4
 deathmatch -4, death match -4
 when -1
+make -4
 elo 6
 fantasy -2
-guides 4
+guides 4, guide 4
+guide for -8
+prize -6
 hell -4, mmr -4
-help 6
+former 6, former lol 4, former league of legends 4
+differences 4
+help 6, helpful 4
 higher -2
 interested 4
+probuilds 8, champselect 8
 learn 6, learning 6
-moba 6
+moba 6, mobas 6
+real match 4
+bots 4
 mod -4
+mode -4
 never 4
 new 4
 position -4
@@ -42,7 +71,8 @@ spoiler -4
 start 4, started 4, starting 4
 suggestion -2
 tips 4
-tournament -10
+tournament -10, tournaments -10
+championship -10, championships -10
 trash 4
 tricks -2
 improve -2
@@ -51,9 +81,11 @@ unable -2
 videos 2
 volvo -4, valve -2
 please valve -4, volvo pls -4
+pls -4
 e sports -4
 youtube -2
 na vi -4
 dendi -4
 interview -4
 movie -4
+tutorial 4
