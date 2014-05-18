@@ -30,4 +30,8 @@ Reddit has run multiple discussion threads for every hero in Dota. Look back at 
 
 Dota for Dummies is an all inclusive video series that prepares you to jump into the world of Dota 2. Starting from the very basics then progressing forward, this series will help you get the foundation you need to become successful.
 
+**[Switching from League of Legends?](http://www.teamliquid.net/forum/dota-2-strategy/423453-dota-2-for-lol-players)**
+
+If you're currently a League of Legends player, this post from the TeamLiquid forums will likely be helpful in transitioning to Dota 2. There's also a useful Reddit thread about the differences [here](http://www.reddit.com/r/DotA2/comments/otygb/switching_from_league_of_legends_what_should_i/).
+
 ^(I'm a bot, but feel free to reply to me if you're having issues.)
