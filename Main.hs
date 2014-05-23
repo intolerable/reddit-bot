@@ -5,9 +5,8 @@ module Main
 import Classifier as Export
 import Examples as Export
 import Parser as Export
-import qualified Markdown as Md
 
-import Control.Monad (unless, when, void)
+import Control.Monad (forM_, unless, when, void)
 import Control.Monad.IO.Class
 import Control.Monad.Trans.Reader
 import Data.Monoid
@@ -21,6 +20,7 @@ import Reddit.Bot
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
 import qualified Data.Text as T
+import qualified Data.Text as Text
 import qualified Reddit.API as Reddit
 import qualified Reddit.API.Types.Post as Post
 import qualified Reddit.API.Types.Comment as Comment
@@ -57,3 +57,22 @@ replyWithHelp post = do
     liftIO $ putStrLn $ mconcat ["Replying to ", show $ Post.postID post]
     bodyFile <- liftIO $ readFile "reply.md"
     void $ rateLimit $ reply post $ T.pack bodyFile
+
+checkForSummons :: PostID -> Reddit ()
+checkForSummons p = do
+  comments <- getComments p
+  forM_ comments $ \c -> do 
+    when (isCommentSummoning c) $ do
+      return ()
+
+haveAlreadyReplied :: Thing a => a -> Reddit Bool
+haveAlreadyReplied = do
+  undefined
+
+isCommentSummoning :: Comment -> Bool
+isCommentSummoning c = 
+  any (`Text.isInfixOf` Text.toLower (Comment.body c)) incantations
+  where
+    incantations = map Text.toLower [ "/u/intolerable-bot, I choose you!"
+                                    , "summon /u/intolerable-bot"
+                                    , "storm, earth and /u/intolerable-bot, heed my call!" ]
