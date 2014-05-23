@@ -1,10 +1,10 @@
 module Classifier where
 
 import Parser
+import NaiveBayes 
 
-import Data.Char (isAlpha, toLower)
-import Data.List (genericLength, isPrefixOf)
-import Data.Map (Map)
+import Data.Char (isAlpha, isSpace)
+import Data.List
 import Data.Monoid
 import Data.Text (Text)
 import Reddit.API.Types.Post (Post, PostContent(..))
