@@ -62,6 +62,3 @@ countInstancesIn _ [] = 0
 countInstancesIn x y = (f $ x `isPrefixOf` y) + countInstancesIn x (tail y)
   where f False = 0
         f True = 1
-
-analyze :: [Text] -> Map Text Integer
-analyze = foldl (\m w -> Map.insertWith (\_ a -> a + 1) w 1 m) Map.empty
