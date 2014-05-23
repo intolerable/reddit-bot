@@ -27,7 +27,7 @@ getWordList = do
     Right x -> return $ x
 
 keywords :: Text -> [Text]
-keywords t = filter (not . Text.null) . Text.split (not . isAlpha) . Text.map toLower $ t 
+keywords = filter (not . Text.null) . map (Text.filter (isAlpha)) . Text.split (isSpace) . Text.toLower
 
 shouldBotRespond :: WordList -> Post -> Bool
 shouldBotRespond w post = score w post > 0.3 && hasEnoughWords post && isSelfPost post
