@@ -2,6 +2,10 @@ adc 4, apc 4, bruiser 4, top 2, marksmen 6
 champion 8, champions 8, champ 8, champs 8, minion 8, minions 8
 tower 4, towers 4, turrets 4
 knowledge 4, comprehensive 4
+stretch goal -6, stretch goals -6
+teach 6, explain 4
+how to play 4
+keybind -4, keybinds -4
 answers 4
 server -4
 necro minions -4
@@ -30,7 +34,7 @@ better 4
 build 4, builds 4
 calibration -4
 chen -4, enchantress -4, io -4, invoker -4
-coaches -2, coach -2
+coaches -6, coach -6, coaching -6
 advanced -4, micro -4
 strongest heroes -6, best heroes -6, op heroes -6, overpowered heroes -6
 combo -2
@@ -55,6 +59,8 @@ help 6, helpful 4
 higher -2
 interested 4
 probuilds 8, champselect 8
+pro 4
+join -4, team -4
 learn 6, learning 6
 moba 6, mobas 6
 real match 4
