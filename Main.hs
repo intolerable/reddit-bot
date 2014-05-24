@@ -4,6 +4,7 @@ module Main
 
 import Classifier as Export
 import Examples as Export
+import NaiveBayes as Export
 import Parser as Export
 
 import Control.Monad (forM_, unless, when, void)
@@ -40,15 +41,19 @@ bots :: [Bot]
 bots = return noobBot
 
 noobBot :: Bot
-noobBot = Bot $ every 600 $ rateLimit $ do
-  liftIO $ putStrLn "Checking..."
-  Listing posts <- Reddit.getNewSubredditPosts (R "DotA2")
-  mapM_ dealWith posts
+noobBot = Bot $ do
+  liftIO $ putStrLn "Pulling training data..."
+  trainingData <- getTrainingData
+  liftIO $ putStrLn "Done."
+  every 600 $ rateLimit $ do
+    liftIO $ putStrLn "Checking..."
+    Listing posts <- Reddit.getNewSubredditPosts (R "DotA2")
+    mapM_ (dealWith trainingData) posts
+    liftIO $ putStrLn "Done, sleeping for ten minutes."
 
-dealWith :: Post -> Reddit ()
-dealWith p = do
-  wl <- liftIO $ getWordList
-  when (shouldBotRespond wl p) $ replyWithHelp p
+dealWith :: TrainingData Post PostClassification -> Post -> Reddit ()
+dealWith t p = do
+  when (shouldBotRespond t p) $ replyWithHelp p
 
 replyWithHelp :: Post -> Reddit ()
 replyWithHelp post = do
