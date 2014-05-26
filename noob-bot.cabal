@@ -13,10 +13,12 @@ executable reddit-bot
   build-depends:
     base == 4.*,
     containers,
+    directory,
     either,
     mtl,
     parsec,
     reddit,
+    strict,
     text,
     transformers
 
