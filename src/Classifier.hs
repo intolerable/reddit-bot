@@ -25,17 +25,14 @@ getWordList = do
     Left _ -> error "Invalid format for words.list"
     Right x -> return $ x
 
-generateClassifiers :: Post -> [Classifier Post]
+generateClassifiers :: Post -> [Classifier [Text]]
 generateClassifiers p =
-  map (\w -> Classifier $ \post -> [w] `isInfixOf` (keywords $ postTextTitle post)) $ nub $ keywords $ postTextTitle p
-
-allKeywords :: [Post] -> [Text]
-allKeywords posts = map fst $ filter ((>1) . snd) $ Map.toList $ foldl (\m a -> Map.insertWith (\o n -> succ o) a 1 m) Map.empty $ concatMap (keywords . postTextTitle) posts
+  map (\w -> Classifier $ \ks -> [w] `isInfixOf` ks) $ nub $ keywords $ postTextTitle p
 
 keywords :: Text -> [Text]
 keywords = filter (not . Text.null) . map (Text.filter (isAlpha)) . Text.split (isSpace) . Text.toLower
 
-shouldBotRespond :: TrainingData Post PostClassification -> Post -> Bool
+shouldBotRespond :: TrainingData [Text] PostClassification -> Post -> Bool
 shouldBotRespond t post = hasEnoughWords post && isSelfPost post && classify t (generateClassifiers post) == NewPlayer
 
 hasEnoughWords :: Post -> Bool

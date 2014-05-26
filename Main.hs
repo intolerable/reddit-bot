@@ -51,7 +51,7 @@ noobBot = Bot $ do
     mapM_ (dealWith trainingData) posts
     liftIO $ putStrLn "Done, sleeping for ten minutes."
 
-dealWith :: TrainingData Post PostClassification -> Post -> Reddit ()
+dealWith :: TrainingData [Text] PostClassification -> Post -> Reddit ()
 dealWith t p = do
   when (shouldBotRespond t p) $ replyWithHelp p
 
